@@ -11,5 +11,6 @@
 # Output of the go coverage tool, specifically when used with LiteIDE
 *.out
 
-kratos-demo
+github.com/byteconv/lemonade
 cmd/cmd
+/.idea/

@@ -4,9 +4,9 @@ import (
 	"context"
 	"fmt"
 
-	pb "kratos-demo/api"
-	"kratos-demo/internal/dao"
-	"github.com/bilibili/kratos/pkg/conf/paladin"
+	pb "github.com/byteconv/lemonade/api"
+	"github.com/byteconv/lemonade/internal/dao"
+	"github.com/go-kratos/kratos/pkg/conf/paladin"
 
 	"github.com/golang/protobuf/ptypes/empty"
 	"github.com/google/wire"

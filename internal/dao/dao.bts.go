@@ -16,8 +16,8 @@ package dao
 import (
 	"context"
 
-	"github.com/bilibili/kratos/pkg/cache"
-	"kratos-demo/internal/model"
+	"github.com/byteconv/lemonade/internal/model"
+	"github.com/go-kratos/kratos/pkg/cache"
 )
 
 // Article get data from cache if miss will call source method, then add to cache.

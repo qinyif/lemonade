@@ -1,25 +1,22 @@
 package grpc
 
 import (
-	pb "kratos-demo/api"
+	pb "github.com/byteconv/lemonade/api"
 
-	"github.com/bilibili/kratos/pkg/conf/paladin"
-	"github.com/bilibili/kratos/pkg/net/rpc/warden"
+	"github.com/go-kratos/kratos/pkg/conf/paladin"
+	"github.com/go-kratos/kratos/pkg/net/rpc/warden"
 )
 
 // New new a grpc server.
 func New(svc pb.DemoServer) (ws *warden.Server, err error) {
-	var (
-		cfg warden.ServerConfig
-		ct paladin.TOML
-	)
-	if err = paladin.Get("grpc.toml").Unmarshal(&ct); err != nil {
-		return
+	var rc struct {
+		Server *warden.ServerConfig
 	}
-	if err = ct.Get("Server").UnmarshalTOML(&cfg); err != nil {
-		return
+	err = paladin.Get("grpc.toml").UnmarshalTOML(&rc)
+	if err == paladin.ErrNotExist {
+		err = nil
 	}
-	ws = warden.NewServer(&cfg)
+	ws = warden.NewServer(rc.Server)
 	pb.RegisterDemoServer(ws.Server(), svc)
 	ws, err = ws.Start()
 	return

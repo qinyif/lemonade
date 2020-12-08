@@ -4,15 +4,14 @@
 package di
 
 import (
-	"kratos-demo/internal/dao"
-	"kratos-demo/internal/service"
-	"kratos-demo/internal/server/grpc"
-	"kratos-demo/internal/server/http"
+	"github.com/byteconv/lemonade/internal/dao"
+	"github.com/byteconv/lemonade/internal/server/grpc"
+	"github.com/byteconv/lemonade/internal/service"
 
 	"github.com/google/wire"
 )
 
 //go:generate kratos t wire
 func InitApp() (*App, func(), error) {
-	panic(wire.Build(dao.Provider, service.Provider, http.New, grpc.New, NewApp))
+	panic(wire.Build(dao.Provider, service.Provider, grpc.New, NewApp))
 }

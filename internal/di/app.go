@@ -4,33 +4,27 @@ import (
 	"context"
 	"time"
 
-	"kratos-demo/internal/service"
+	"github.com/byteconv/lemonade/internal/service"
 
-	"github.com/bilibili/kratos/pkg/log"
-	bm "github.com/bilibili/kratos/pkg/net/http/blademaster"
-	"github.com/bilibili/kratos/pkg/net/rpc/warden"
+	"github.com/go-kratos/kratos/pkg/log"
+	"github.com/go-kratos/kratos/pkg/net/rpc/warden"
 )
 
 //go:generate kratos tool wire
 type App struct {
-	svc *service.Service
-	http *bm.Engine
+	svc  *service.Service
 	grpc *warden.Server
 }
 
-func NewApp(svc *service.Service, h *bm.Engine, g *warden.Server) (app *App, closeFunc func(), err error){
+func NewApp(svc *service.Service, g *warden.Server) (app *App, closeFunc func(), err error) {
 	app = &App{
-		svc: svc,
-		http: h,
+		svc:  svc,
 		grpc: g,
 	}
 	closeFunc = func() {
 		ctx, cancel := context.WithTimeout(context.Background(), 35*time.Second)
 		if err := g.Shutdown(ctx); err != nil {
 			log.Error("grpcSrv.Shutdown error(%v)", err)
-		}
-		if err := h.Shutdown(ctx); err != nil {
-			log.Error("httpSrv.Shutdown error(%v)", err)
 		}
 		cancel()
 	}

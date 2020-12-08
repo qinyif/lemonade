@@ -6,10 +6,9 @@
 package di
 
 import (
-	"kratos-demo/internal/dao"
-	"kratos-demo/internal/server/grpc"
-	"kratos-demo/internal/server/http"
-	"kratos-demo/internal/service"
+	"github.com/byteconv/lemonade/internal/dao"
+	"github.com/byteconv/lemonade/internal/server/grpc"
+	"github.com/byteconv/lemonade/internal/service"
 )
 
 // Injectors from wire.go:
@@ -45,15 +44,6 @@ func InitApp() (*App, func(), error) {
 		cleanup()
 		return nil, nil, err
 	}
-	engine, err := http.New(serviceService)
-	if err != nil {
-		cleanup5()
-		cleanup4()
-		cleanup3()
-		cleanup2()
-		cleanup()
-		return nil, nil, err
-	}
 	server, err := grpc.New(serviceService)
 	if err != nil {
 		cleanup5()
@@ -63,7 +53,7 @@ func InitApp() (*App, func(), error) {
 		cleanup()
 		return nil, nil, err
 	}
-	app, cleanup6, err := NewApp(serviceService, engine, server)
+	app, cleanup6, err := NewApp(serviceService, server)
 	if err != nil {
 		cleanup5()
 		cleanup4()

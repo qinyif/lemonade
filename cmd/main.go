@@ -1,23 +1,25 @@
 package main
 
 import (
-	"flag"
+	"github.com/byteconv/lemonade/internal/conf"
 	"os"
 	"os/signal"
 	"syscall"
 	"time"
 
-	"kratos-demo/internal/di"
-	"github.com/bilibili/kratos/pkg/conf/paladin"
-	"github.com/bilibili/kratos/pkg/log"
+	"github.com/byteconv/lemonade/internal/di"
+	"github.com/go-kratos/kratos/pkg/log"
 )
 
 func main() {
-	flag.Parse()
+	//flag.Parse()
+	err := conf.Init()
+
 	log.Init(nil) // debug flag: log.dir={path}
 	defer log.Close()
-	log.Info("kratos-demo start")
-	paladin.Init()
+	log.Info("github.com/byteconv/lemonade start")
+	//paladin.Init()
+
 	_, closeFunc, err := di.InitApp()
 	if err != nil {
 		panic(err)
@@ -30,7 +32,7 @@ func main() {
 		switch s {
 		case syscall.SIGQUIT, syscall.SIGTERM, syscall.SIGINT:
 			closeFunc()
-			log.Info("kratos-demo exit")
+			log.Info("github.com/byteconv/lemonade exit")
 			time.Sleep(time.Second)
 			return
 		case syscall.SIGHUP:
